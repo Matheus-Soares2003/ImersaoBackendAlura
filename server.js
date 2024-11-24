@@ -1,7 +1,6 @@
 import express from 'express';
 import routes from './src/routes/livrosRoutes.js';
 
-
 const app = express(); //app representa o servidor
 routes(app);
 
