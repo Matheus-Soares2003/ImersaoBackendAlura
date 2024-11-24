@@ -1,4 +1,5 @@
-import express from 'express'
+import express from 'express';
+import conectarAoBanco from './src/config/dbConfig.js';
 
 const livros = [
     {
