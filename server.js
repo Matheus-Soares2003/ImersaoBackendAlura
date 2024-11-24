@@ -74,22 +74,9 @@ const livros = [
 ];
 
 const app = express(); //app representa o servidor
-app.use(express.json()); //fala pro express que ele deve devolver um JSON
 
 app.listen(3000, () => {
     console.log("Servidor escutando..."); //servidor vai escutar na porta 3000
-});
-
-//Espera uma requisição GET para /livros e devolve um JSON com todos os livros
-app.get("/livros", async (req, res) => {
-    const livros = await getTodosLivros();
-    res.status(200).json(livros);
-});
-
-//Devolve um livro baseado em seu ID (/livro/1)
-app.get("/livro/:id", (req, res) => {
-    const idx = buscarLivroPorID(req.params.id); //pega o parametro id passado pela url
-    res.status(200).json(livros[idx]);
 });
 
 
