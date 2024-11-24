@@ -1,6 +1,15 @@
 import express from 'express';
 import conectarAoBanco from './src/config/dbConfig.js';
 
+const conexao = await conectarAoBanco(process.env.STRING_CONEXAO);
+
+//acessando o atlas mongoDB
+async function getTodosLivros() {
+  const db = conexao.db("imersao-alura-backend");
+  const colecao = db.collection("livros");
+  return colecao.find().toArray(); //converte a coleção para um array
+}
+
 const livros = [
     {
       id: 1,
@@ -72,7 +81,8 @@ app.listen(3000, () => {
 });
 
 //Espera uma requisição GET para /livros e devolve um JSON com todos os livros
-app.get("/livros", (req, res) => {
+app.get("/livros", async (req, res) => {
+    const livros = await getTodosLivros();
     res.status(200).json(livros);
 });
 
