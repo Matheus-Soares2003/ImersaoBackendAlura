@@ -1,5 +1,5 @@
 import express from 'express';
-import { listarLivros, pegarLivroPorID } from '../controllers/livrosController.js';
+import { listarLivros, pegarLivroPorID, pegarLivrosPorAutor} from '../controllers/livrosController.js';
 
 const routes = (app) => {
     //fala pro express que ele deve devolver um JSON
@@ -7,7 +7,12 @@ const routes = (app) => {
 
     //Espera uma requisição GET para /livros e devolve um JSON com todos os livros
     app.get("/livros", listarLivros);
-    app.get("/livro/:id", pegarLivroPorID); 
+
+    //Rota para pegar um livro pelo seu ID
+    app.get("/livro/:id", pegarLivroPorID);
+    
+    //Rota para pesquisar um livro por autor
+    app.get("/livros/search", pegarLivrosPorAutor);
 }
 
 export default routes;
