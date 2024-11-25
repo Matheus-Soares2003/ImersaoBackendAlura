@@ -1,5 +1,17 @@
 import express from 'express';
-import { criarLivro, listarLivros, pegarLivroPorID, pegarLivrosPorAutor} from '../controllers/livrosController.js';
+import multer from 'multer';
+import { criarLivro, listarLivros, pegarLivroPorID, pegarLivrosPorAutor, uploadImagem} from '../controllers/livrosController.js';
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+})
+
+const upload = multer({ dest: "./uploads" , storage})
 
 const routes = (app) => {
     //fala pro express que ele deve devolver um JSON
@@ -16,6 +28,8 @@ const routes = (app) => {
     /*  Métodos POST */
     //  Rota para criar um livro
     app.post("/livros", criarLivro);
+    // Rota para fazer uploads de imagens
+    app.post("/upload", upload.single("imagem"), uploadImagem);
 }
 
 export default routes;

@@ -1,3 +1,4 @@
+import fs from "fs"
 import { getLivroByAutor, getLivroByID, getTodosLivros, insertLivro } from "../models/livroModel.js";
 
 export async function listarLivros(req, res) {
@@ -28,6 +29,24 @@ export async function criarLivro(req, res) {
     const novoLivro = req.body;
     try {
         const livroCriado = await insertLivro(novoLivro);
+        res.status(201).json(livroCriado);
+    } catch (e) {
+        console.error("ERRO! " + e.message);
+        res.status(500).json({message: "Falha na requisição"});
+    }
+}
+
+export async function uploadImagem(req, res) {
+    const novoLivro = {
+        titulo: "",
+        autor: "",
+        imageUrl: req.file.originalname,
+        descricaoImagem: "descricao da imagem"
+    };
+    try {
+        const livroCriado = await insertLivro(novoLivro);
+        const imagemAtualizada = `uploads/${livroCriado.insertedId}.jpg`;
+        fs.renameSync(req.file.path, imagemAtualizada);
         res.status(201).json(livroCriado);
     } catch (e) {
         console.error("ERRO! " + e.message);
