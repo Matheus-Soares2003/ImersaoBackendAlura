@@ -1,4 +1,4 @@
-import { getLivroByAutor, getLivroByID, getTodosLivros } from "../models/livroModel.js";
+import { getLivroByAutor, getLivroByID, getTodosLivros, insertLivro } from "../models/livroModel.js";
 
 export async function listarLivros(req, res) {
     const livros = await getTodosLivros();
@@ -17,10 +17,21 @@ export async function pegarLivroPorID(req, res) {
 
 export async function pegarLivrosPorAutor(req, res) {
     const livro = await getLivroByAutor(req.query.autor);
-    if (livro) {
+    if (livro.length > 0) {
         res.status(200).json(livro);
     } else {
-        res.status(404).json({message: "Livros com esse autor não econtrados"});
+        res.status(500).json({message: "Erro interno do servidor"});
+    }
+}
+
+export async function criarLivro(req, res) {
+    const novoLivro = req.body;
+    try {
+        const livroCriado = await insertLivro(novoLivro);
+        res.status(201).json(livroCriado);
+    } catch (e) {
+        console.error("ERRO! " + e.message);
+        res.status(500).json({message: "Falha na requisição"});
     }
 }
 

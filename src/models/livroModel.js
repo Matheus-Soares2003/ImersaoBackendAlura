@@ -17,4 +17,8 @@ export async function getLivroByAutor(autor) {
     return colecao.find({autor: autor}).toArray();
 }
 
+export async function insertLivro(novoLivro) {
+    return colecao.insertOne(novoLivro);
+}
+
 //Este é o arquivo responsável por gerenciar manipulações com o banco de dados
